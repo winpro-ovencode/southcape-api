@@ -1,0 +1,270 @@
+﻿@page "/products"
+@using Syncfusion.Blazor.Cards
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Grids 
+
+<h5 style="width:100%">상품 / 조회 수정</h5>
+<div class="container-fluid">
+    <div class="row" style="margin-bottom:1rem">
+        <div class="col-xs-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 card-container">
+            <div class="e-card card">
+                <div class="e-card-content">
+                    <h3 class="card-value" id="toltransaction">@TotalIncome</h3>
+                    <span class="card-text">전체상품</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-3 col-xl-2 col-lg-2 col-md-2 col-sm-3 card-container">
+            <div class="e-card card">
+                <div class="e-card-content">
+                    <h3 class="card-value" id="toltransaction">@TotalExpense</h3>
+                    <span class="card-text">판매예정</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-3 col-xl-2 col-lg-2 col-md-2 col-sm-3 card-container">
+            <div class="e-card card">
+                <div class="e-card-content">
+                    <h3 class="card-value" id="toltransaction">@TotalBalance</h3>
+                    <span class="card-text">판매진행</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-3 col-xl-2 col-lg-2 col-md-2 col-sm-3 card-container">
+            <div class="e-card card">
+                <div class="e-card-content">
+                    <h3 class="card-value" id="toltransaction">@TotalTransactions</h3>
+                    <span class="card-text">판매중지</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-3 col-xl-2 col-lg-2 col-md-2 col-sm-3 card-container">
+            <div class="e-card card">
+                <div class="e-card-content">
+                    <h3 class="card-value" id="toltransaction">@TotalTransactions</h3>
+                    <span class="card-text">판매종료</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row ">
+        <div class="col">
+            <div class="control-section card-container">
+                <div class="card">
+                    <div class="row">
+                        <div class="col-1">
+                            <span style="word-break: keep-all;">조회 조건</span>
+                        </div>
+                        <div class="col-10">
+                            <div class="row">
+                                <SfRadioButton Label="상품번호" Name="payment" Value="credit/debit" Checked="@CheckedValue" CssClass="radio-space"></SfRadioButton>
+                                <SfRadioButton Label="ERP 상품코드" Name="payment" Value="netbanking" Checked="@CheckedValue" CssClass="radio-space"></SfRadioButton>
+                                <SfRadioButton Label="스타일 코드 ERP SKU" Name="payment" Value="cashondelivery" Checked="@CheckedValue" CssClass="radio-space"></SfRadioButton>
+                            </div>
+                            <div class="row">
+                                <Syncfusion.Blazor.Inputs.SfTextBox Multiline=true InputAttributes="@(new Dictionary<string, object>() {{ "style","min-height:80px"}})" CssClass="search-textarea" Placeholder=@(System.Web.HttpUtility.HtmlDecode("복수개의 상품을 검색하시려면 쉼표를 이용해 조회해주세요&#13;&#10;(예시:1231991312,2131312,1123131)"))></Syncfusion.Blazor.Inputs.SfTextBox>
+                            </div>
+                            <div class="row">
+                                <SfRadioButton Label="카테고리" Name="payment" Value="cashondelivery" Checked="@CheckedValue" CssClass="radio-space"></SfRadioButton>
+                                <span style="width:150px;margin-right:1rem">
+                                    <Syncfusion.Blazor.DropDowns.SfDropDownList TItem="Category" TValue="int" Placeholder="분류" PopupHeight="300px" DataSource="@_categories" ValueChanged="@((args) => ChangeCategory(args))">
+                                        <Syncfusion.Blazor.DropDowns.DropDownListFieldSettings Text="Text" Value="Value"></Syncfusion.Blazor.DropDowns.DropDownListFieldSettings>
+                                    </Syncfusion.Blazor.DropDowns.SfDropDownList>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1">
+                            <span style="word-break: keep-all;">판매 상태</span>
+                        </div>
+                        <div class="col-10">
+                            <SfCheckBox Label="전체상품" @bind-Checked="@_isAll" CssClass="radio-space"></SfCheckBox>
+                            <SfCheckBox Label="판매예정" @bind-Checked="@_isAll" CssClass="radio-space"></SfCheckBox>
+                            <SfCheckBox Label="판매진행" @bind-Checked="@_isAll" CssClass="radio-space"></SfCheckBox>
+                            <SfCheckBox Label="판매중지" @bind-Checked="@_isAll" CssClass="radio-space"></SfCheckBox>
+                            <SfCheckBox Label="판매종료" @bind-Checked="@_isAll" CssClass="radio-space"></SfCheckBox>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1">
+                            <span style="word-break: keep-all;">조회 기간</span>
+                        </div>
+                        <div class="col-10">
+                            <SfRadioButton Label="오늘" Name="period" Value="credit/debit" Checked="@CheckedValue" CssClass="radio-space"></SfRadioButton>
+                            <SfRadioButton Label="1주일" Name="period" Value="netbanking" Checked="@CheckedValue" CssClass="radio-space"></SfRadioButton>
+                            <SfRadioButton Label="1개월" Name="period" Value="cashondelivery" Checked="@CheckedValue" CssClass="radio-space"></SfRadioButton>
+                            <SfRadioButton Label="3개월" Name="period" Value="cashondelivery" Checked="@CheckedValue" CssClass="radio-space"></SfRadioButton>
+                            <SfRadioButton Label="사용자" Name="period" Value="cashondelivery" Checked="@CheckedValue" CssClass="radio-space"></SfRadioButton>
+                            <Syncfusion.Blazor.Calendars.SfDateRangePicker Width="300px"></Syncfusion.Blazor.Calendars.SfDateRangePicker>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <dov class="control-section">
+        <div class="row container">
+            <SfButton IsPrimary="true">검색</SfButton>
+            <SfButton>초기화</SfButton>
+        </div>
+    </dov>
+    <div class="row container" style="margin-bottom:1rem">
+        <SfButton IsPrimary="true">선택삭제</SfButton>
+        <SfButton>수정</SfButton>
+        <SfButton>Styled with 설정</SfButton>
+        <SfButton>상태변경</SfButton>
+        <SfButton>엑셀다운로드</SfButton>
+    </div>
+
+    <div class="row">
+        <div class="">
+            <SfGrid DataSource="@_products" Height="auto" AllowSelection="true" AllowResizing="true" Width="100%" AllowPaging="true">
+                <GridPageSettings PageCount="5" PageSizes="true"></GridPageSettings>
+                <GridSelectionSettings PersistSelection="true"></GridSelectionSettings>
+                <GridColumns>
+                    <GridColumn Type="ColumnType.CheckBox" Width="50"></GridColumn>
+                    <GridColumn Field=@nameof(Product.ImageURL) HeaderText="이미지" Width="110">
+                        <Template>
+                            @{
+                                var row = (context as Product);
+                                <img src="@("https://static.southcape.shop" + row.ImageURL)" style="width:100px;height:100px">
+                            }
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field=@nameof(Product.ProductID) HeaderText="상품ID" MinWidth="120" Width="200" MaxWidth="300" HideAtMedia="true"></GridColumn>
+                    <GridColumn Field=@nameof(Product.ProductNumber) HeaderText="상품번호" MinWidth="8" Width="200"></GridColumn>
+                    <GridColumn Field=@nameof(Product.ProductCode) HeaderText="상품코드" TextAlign="TextAlign.Left" MinWidth="8" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(Product.SKU) HeaderText="SKU" MinWidth="8" Width="80"></GridColumn>
+                    <GridColumn Field=@nameof(Product.Title) HeaderText="상품명" TextAlign="TextAlign.Left"></GridColumn>
+                    <GridColumn Field=@nameof(Product.Status) HeaderText="판매상태" MinWidth="8" Width="100"></GridColumn>
+                    <GridColumn Field=@nameof(Product.Price) HeaderText="가격" MinWidth="8" Width="100" Format="d"></GridColumn>
+                    <GridColumn Field=@nameof(Product.Stock) HeaderText="재고" MinWidth="8" Width="80"></GridColumn>
+                    <GridColumn Field=@nameof(Product.Category) HeaderText="카테고리" MinWidth="8" Width="100"></GridColumn>
+                    <GridColumn Field=@nameof(Product.CreateAt) HeaderText="생성일" Type="ColumnType.DateTime" MinWidth="8" Width="200"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+
+@code { 
+    List<Category> _categories = new List<Category>();
+    List<Product> _products = new List<Product>();
+    protected bool _isAll { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using (var db = DataContext.Open())
+        {
+            var rows = await db.SelectAsync<Schema.t_category>();
+            foreach(var row in rows)
+            {
+                _categories.Add(new Category { Text = row.NAME, Value = (int)row.CATEGORY_ID });
+            }
+
+            var rowsProduct = await db.SelectMultiAsync<Schema.t_product, Schema.t_sku>(db.From<Schema.t_product, Schema.t_sku>((l,r) => l.DEFAULT_SKU_ID == r.SKU_ID).OrderByDescending(w => w.DATE_CREATED).Limit(100));
+            List<Product> list = new List<Product>();
+
+            foreach(var row in rowsProduct)
+            {
+                var mediaMap = await db.SingleAsync<Schema.t_sku_media_map>(w => w.T_SKU_SKU_ID == row.Item2.SKU_ID);
+                Schema.t_media media = null;
+                if(mediaMap != null)
+                    media = await db.SingleAsync<Schema.t_media>(w => w.MEDIA_ID == mediaMap.MEDIA_ID);
+
+                list.Add(new Product
+                {
+                    Title = row.Item2.NAME,
+                    Status = "판매진행",
+                    Stock = 99,
+                    ProductNumber = row.Item2.MODEL,
+                    Price = ((int)row.Item2.RETAIL_PRICE).ToString(),
+                    ImageURL = media?.URL,
+                    CreateAt = row.Item1.DATE_CREATED
+                });
+            }
+
+            _products = list;
+        }
+    }
+
+    void ChangeCategory(int args)
+    {
+
+    }
+
+    class Category
+    {
+        public string Text { get; set; }
+        public int Value { get; set; }
+    }
+
+    class Product
+    {
+        public long ProductID { get; set; }
+        public string ImageURL { get; set; }
+        public string ProductNumber { get; set; }
+        public string ProductCode { get; set; }
+        public string SKU { get; set; }
+        public string Title { get; set; }
+        public string Status { get; set; }
+        public string Price { get; set; }
+        public int Stock { get; set; }
+        public string Category { get; set; }
+        public DateTime? CreateAt { get; set; }
+    }
+
+
+    private string TotalIncome = "0";
+    private string TotalExpense = "0";
+    private string TotalBalance = "0";
+    private string TotalTransactions = "0";
+    private string CheckedValue = "credit/debit";
+    private string CheckedValue2 = "credit/debit";
+}
+<style>
+    .search-textarea{
+        min-height:70px
+    }
+    .radio-control {
+    }
+
+    .radio-space {
+        margin-right:50px;
+    }
+
+    button + button {
+        margin-left:10px;
+    }
+
+    @@media only screen and (max-width: 700px) {
+        .radio-control {
+            margin-left: 35%;
+            margin-top: 8%;
+        }
+
+        .control-section {
+            min-height: 200px;
+        }
+    }
+
+    @@media only screen and (max-width: 500px) {
+        .radio-control {
+            margin-top: 20%;
+            margin-left: 21%;
+            margin-bottom: 27%;
+        }
+    }
+
+    .control-section .row {
+        margin: 10px 0;
+    }
+
+    .e-bigger .radio-control h4 {
+        font-size: 20px;
+    }
+</style>

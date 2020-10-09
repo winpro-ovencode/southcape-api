@@ -1,0 +1,58 @@
+@inherits LayoutComponentBase
+
+<div class="container-fluid">
+    <NavMenu />
+    <div class="main-content" id="main-text">
+        <div class="sidebar-content">
+            @Body
+        </div>
+    </div>
+</div>
+<style>
+    .wrapper {
+        min-height:768px;
+    }
+
+    /* content area styles */
+    #main-text.main-content {
+        overflow: hidden;
+        height: 100%;
+        min-height:768px;
+        width:100%;
+    }
+
+    #main-text .sidebar-content .line {
+        width: 100%;
+        height: 1px;
+        border-bottom: 1px dashed #ddd;
+        margin: 40px 0;
+    }
+
+    #main-text .sidebar-content {
+        padding: 15px;
+    }
+
+    #main-text .sidebar-heading {
+        color: #1c86c8;
+        margin: 40px 0;
+        padding: 2px;
+    }
+
+    #main-text .paragraph-content {
+        font-family: 'Poppins', sans-serif;
+        padding: 5px;
+        font-weight: normal;
+        font-size: 14px;
+        color: grey;
+    }
+
+    /* end of content area styles */
+    /* custom code start */
+    /* body and html styles */
+    body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        -webkit-tap-highlight-color: transparent;
+    }
+    /* end of body and html styles */
+</style>
